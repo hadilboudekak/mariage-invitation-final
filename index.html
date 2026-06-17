@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invitation Mariage</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <section class="opening" id="opening">
+    <div class="scene" id="scene">
+      <img src="images/envelope_closed.png" class="envelope closed" id="closedEnvelope">
+      <img src="images/envelope_open.png" class="envelope open-img" id="openEnvelope">
+      <img src="images/invitation_card.png" class="card-img" id="cardImg">
+
+      <button class="seal-click" id="sealClick"></button>
+    </div>
+
+    <p class="hint" id="hint">Touchez le sceau pour ouvrir</p>
+  </section>
+
+  <section class="final-invitation" id="finalInvitation">
+    <button class="lang-toggle" id="langToggle">AR</button>
+
+    <div class="final-card" id="finalCard">
+      <img src="images/invitation_card.png" class="final-bg">
+
+      <div class="text-content" id="textContent">
+        <h3 id="title">Faire-part de mariage</h3>
+
+        <p id="parents">
+          Monsieur et Madame BOUDEKAK ont la joie et le plaisir de vous faire part du mariage de leur fille
+        </p>
+
+        <h1 id="name">Nour El Houda</h1>
+
+        <p id="message">
+          Et vous prient de bien vouloir honorer de votre présence la cérémonie qui aura lieu en cette heureuse occasion.
+        </p>
+
+        <div class="infos">
+          <p id="date"> Lundi 10 août 2026</p>
+          <p id="time"> À partir de 14h00</p>
+          <p id="place">📍 Salle des fêtes Reine de Saba, Rouiba - Alger</p>
+        </div>
+
+        <p class="warning" id="warning">
+          ⚠ Pour des raisons liées au règlement de la salle des fêtes, la présence des enfants est strictement interdite.
+        </p>
+
+        <a
+          class="map-btn"
+          id="mapBtn"
+          href="https://www.google.com/maps/search/?api=1&query=Salle%20des%20fetes%20Reine%20de%20Saba%20Rouiba%20Alger"
+          target="_blank">
+          Voir la localisation
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
