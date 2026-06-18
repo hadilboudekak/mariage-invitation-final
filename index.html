@@ -76,7 +76,7 @@
     }
     .seal-btn {
       position:absolute; z-index:4;
-      left:50%; top:67%;
+      left:50%; top:63%;
       transform:translate(-50%,-50%);
       width:13%; aspect-ratio:1;
       border:none; border-radius:50%;
@@ -110,7 +110,7 @@
       display: flex; flex-direction: column;
       align-items: center; position: relative;
       overflow: hidden; text-align: center;
-      opacity:0; transform:translateY(30px);
+      opacity:1; transform:translateY(0);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
     .inv-section.visible { opacity:1; transform:translateY(0); }
@@ -421,7 +421,7 @@
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.05 });
+ }, { threshold: 0, rootMargin: '0px 0px -50px 0px' });
   document.querySelectorAll('.inv-section').forEach(s => observer.observe(s));
 
   function spawnPetals() {
