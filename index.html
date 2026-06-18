@@ -479,11 +479,12 @@ function startAutoScroll() {
   window.addEventListener('wheel', stop, { once: true });
 
   scrollInterval = setInterval(() => {
-    if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 5) {
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    if (window.scrollY >= maxScroll - 5) {
       clearInterval(scrollInterval);
       return;
     }
-    document.documentElement.scrollTop += 1;
+    window.scrollTo(0, window.scrollY + 1);
   }, 20);
 }
 </script>
