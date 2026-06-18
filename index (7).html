@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Invitation Mariage – Nour El Houda & Yanis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #fff;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      color: #4a1a2c;
+      overflow-x: hidden;
+    }
+
+    /* =============================================
+       BOUTONS FIXES
+    ============================================= */
+    .fixed-btns {
+      position: fixed; top: 14px; right: 14px;
+      z-index: 999; display: none;
+      gap: 8px; flex-direction: column; align-items: flex-end;
+    }
+    .fixed-btns.show { display: flex; }
+    .lang-btn, .music-btn {
+      border: none; border-radius: 22px;
+      padding: 9px 16px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px; font-weight: 400;
+      letter-spacing: 1px; cursor: pointer;
+      box-shadow: 0 4px 14px rgba(139,26,74,0.2);
+      transition: transform 0.2s;
+    }
+    .lang-btn  { background: linear-gradient(135deg,#c0507a,#8b1a4a); color:#fff; }
+    .music-btn { background: #fff; color:#8b1a4a; border:1px solid #d4709a; }
+    .lang-btn:hover, .music-btn:hover { transform: translateY(-2px); }
+
+    /* =============================================
+       ENVELOPPE
+    ============================================= */
+    #opening {
+      height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      background: radial-gradient(ellipse at center,rgba(255,255,255,0.8),transparent 70%),
+                  linear-gradient(160deg,#fff5f8,#fce8ee);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    #opening.fade-out { opacity:0; transform:scale(1.04); pointer-events:none; }
+
+    .scene {
+      position: relative;
+      width: min(88vw,500px);
+      height: min(70vh,420px);
+    }
+    .layer {
+      position: absolute; top:0; left:0;
+      width:100%; height:100%;
+      object-fit: contain; object-position: center bottom;
+    }
+    .env-open { z-index:1; }
+    .card-img {
+      z-index:2; width:50%; height:auto;
+      top:auto; bottom:16%; left:50%;
+      transform: translateX(-50%) translateY(50px);
+      opacity:0; border-radius:10px;
+      filter: drop-shadow(0 14px 24px rgba(120,40,70,0.22));
+      transition: transform 1.1s cubic-bezier(0.34,1.56,0.64,1), opacity 0.7s ease;
+    }
+    .env-closed {
+      z-index:3;
+      filter: drop-shadow(0 24px 36px rgba(120,40,70,0.18));
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .seal-btn {
+      position:absolute; z-index:4;
+      left:50%; top:56%;
+      transform:translate(-50%,-50%);
+      width:13%; aspect-ratio:1;
+      border:none; border-radius:50%;
+      background:transparent; cursor:pointer;
+    }
+    .seal-btn:hover { box-shadow:0 0 0 8px rgba(190,60,100,0.15); border-radius:50%; }
+    .scene.step-open .env-closed { opacity:0; transform:translateY(-16%) scale(1.03); }
+    .scene.step-card .card-img   { opacity:1; transform:translateX(-50%) translateY(-50%); }
+
+    .hint {
+      margin-top:18px; font-size:16px;
+      font-style:italic; font-weight:300;
+      color:#b04070; letter-spacing:1.5px;
+      transition:opacity 0.5s;
+    }
+    .hint.fade { opacity:0.4; }
+
+    .petal { position:fixed; pointer-events:none; opacity:0; animation:petalFall linear forwards; }
+    @keyframes petalFall {
+      0%   { transform:translateY(-40px) rotate(0deg); opacity:0.9; }
+      100% { transform:translateY(108vh) rotate(400deg); opacity:0; }
+    }
+
+    /* =============================================
+       SECTIONS
+    ============================================= */
+    #invitation { display:none; }
+    #invitation.show { display:block; }
+
+    .inv-section {
+      display: flex; flex-direction: column;
+      align-items: center; position: relative;
+      overflow: hidden; text-align: center;
+      opacity:0; transform:translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .inv-section.visible { opacity:1; transform:translateY(0); }
+
+    /* ---- Bloc fleurs + texte collés ---- */
+    .flower-block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .flowers-top {
+      width: 100%;
+      max-width: 500px;
+      display: block;
+      margin: 0 auto;
+      /* COLLE les fleurs au texte en dessous */
+      margin-bottom: -40px;
+      position: relative;
+      z-index: 1;
+    }
+    .flowers-bottom {
+      width: 100%;
+      max-width: 500px;
+      display: block;
+      margin: -40px auto 0;
+      transform: rotate(180deg);
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 480px;
+      padding: 30px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* ---- PAGE 1 : Arche ---- */
+    .page-arch { background:#fff; padding:0; }
+    .arch-wrapper { position:relative; width:min(92vw,460px); margin:0 auto; }
+    .arch-img { width:100%; display:block; }
+    .arch-content {
+      position:absolute; inset:7% 9% 9%;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:7px;
+    }
+    .bismillah {
+      font-family:'Scheherazade New','Traditional Arabic',serif;
+      font-size:clamp(16px,4vw,26px); color:#8b1a4a;
+      direction:rtl; line-height:1.4;
+    }
+    .arch-names {
+      font-family:'Great Vibes',cursive;
+      font-size:clamp(32px,8vw,58px); color:#6b0f35; line-height:1.1;
+    }
+    .arch-amp {
+      font-family:'Great Vibes',cursive;
+      font-size:clamp(22px,5vw,36px); color:#c0507a; display:block;
+    }
+    .arch-tagline { font-size:clamp(11px,2.5vw,16px); font-style:italic; color:#8b1a4a; font-weight:300; }
+    .arch-date {
+      font-family:'Montserrat',sans-serif;
+      font-size:clamp(13px,3vw,18px); font-weight:300; letter-spacing:3px; color:#6b0f35;
+    }
+    .douaa {
+      font-family:'Scheherazade New','Traditional Arabic',serif;
+      font-size:clamp(11px,2.8vw,17px); color:#8b1a4a; direction:rtl; line-height:1.6;
+    }
+    .scroll-hint {
+      font-size:11px; letter-spacing:2px; color:#c0507a;
+      text-transform:uppercase; font-family:'Montserrat',sans-serif; font-weight:300;
+      animation:bounce 2s ease-in-out infinite;
+    }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
+
+    /* ---- PAGE 2 : Famille ---- */
+    .page-famille { background:linear-gradient(180deg,#fff,#fff5f8,#fff); padding-bottom: 50px; }
+    .page-famille .section-content { padding-top: 50px; }
+    .page-lieu .section-content { padding-top: 50px; }
+    .section-separator {
+      width: 160px; height: 1px;
+      background: linear-gradient(90deg, transparent, #d4709a, transparent);
+      margin: 35px auto;
+      position: relative;
+    }
+    .section-separator::before {
+      content: '✦';
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      color: #d4709a;
+      font-size: 11px;
+      padding: 0 8px;
+    }
+    .label { font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:3px; color:#c0507a; text-transform:uppercase; }
+    .famille-name { font-size:clamp(20px,5vw,34px); font-weight:400; color:#4a1a2c; line-height:1.1; }
+    .famille-text { font-size:clamp(13px,3vw,18px); font-style:italic; font-weight:300; color:#6b3050; line-height:1.6; }
+    .mariee-name { font-family:'Great Vibes',cursive; font-size:clamp(42px,10vw,68px); color:#8b1a4a; line-height:1; }
+    .divider { width:60px; height:1px; background:linear-gradient(90deg,transparent,#d4709a,transparent); }
+    .info-p {
+      font-family:'Montserrat',sans-serif;
+      font-size:clamp(12px,3vw,17px); font-weight:300; letter-spacing:1.5px; color:#6b0f35;
+    }
+
+    /* ---- PAGE 3 : Lieu ---- */
+    .page-lieu { background:#fff; }
+    .lieu-title { font-size:clamp(20px,5vw,32px); color:#4a1a2c; font-weight:400; }
+    .lieu-salle { font-family:'Great Vibes',cursive; font-size:clamp(26px,6vw,40px); color:#8b1a4a; line-height:1.2; }
+    .lieu-ville { font-family:'Montserrat',sans-serif; font-size:clamp(11px,2.5vw,15px); letter-spacing:2px; color:#6b3050; font-weight:300; }
+
+    /* Carte OpenStreetMap — GRATUITE, sans clé API */
+    .map-container {
+      width:100%; max-width:440px;
+      border-radius:14px; overflow:hidden;
+      box-shadow:0 8px 24px rgba(139,26,74,0.15);
+    }
+    .map-container iframe { width:100%; height:200px; border:none; display:block; }
+
+    .map-btn {
+      display:inline-block; text-decoration:none;
+      color:#fff; background:linear-gradient(135deg,#c0507a,#8b1a4a);
+      padding:11px 24px; border-radius:30px;
+      font-family:'Montserrat',sans-serif; font-size:12px;
+      letter-spacing:2px; font-weight:400;
+      box-shadow:0 8px 20px rgba(139,26,74,0.28);
+      transition:transform 0.2s;
+    }
+    .map-btn:hover { transform:translateY(-2px); }
+
+    /* ---- PAGE 4 : Enfants ---- */
+    .page-enfants { background:linear-gradient(180deg,#fff5f8,#ffe8f0,#fff5f8); padding:50px 20px; }
+    .enfants-card {
+      border: 4.5px solid #d4709a;
+      background:rgba(255,255,255,0.92); border-radius:20px;
+      max-width:400px; width:90%; padding:36px 28px;
+      box-shadow:0 8px 32px rgba(192,80,122,0.12);
+      display:flex; flex-direction:column; align-items:center; gap:14px;
+    }
+    .enfants-flower { width:70px; }
+    .enfants-title { font-size:clamp(18px,4.5vw,26px); font-weight:400; color:#4a1a2c; line-height:1.3; }
+    .enfants-text  { font-size:clamp(12px,2.8vw,16px); font-style:italic; color:#6b3050; line-height:1.7; font-weight:300; }
+    .enfants-merci { font-family:'Great Vibes',cursive; font-size:clamp(18px,4.5vw,26px); color:#8b1a4a; }
+
+    /* Langue */
+    [lang-ar] { display:none; }
+    body.ar [lang-fr] { display:none; }
+    body.ar [lang-ar] { display:block; }
+    body.ar { direction: rtl; }
+  </style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="music/music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Boutons fixes -->
+<div class="fixed-btns" id="fixedBtns">
+  <button class="lang-btn"  id="langBtn"  onclick="toggleLang()">🌐 عربي</button>
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵 Musique</button>
+</div>
+
+<!-- ===== ENVELOPPE ===== -->
+<section id="opening">
+  <div class="scene" id="scene">
+    <img src="images/envelope_open.png"   class="layer env-open" alt="">
+    <img src="images/invitation_card.png" class="layer card-img" alt="">
+    <img src="images/envelope_closed.png" class="layer env-closed" alt="">
+    <button class="seal-btn" id="sealBtn"></button>
+  </div>
+  <p class="hint" id="hint">Touchez le sceau pour ouvrir</p>
+</section>
+
+<!-- ===== INVITATION ===== -->
+<div id="invitation">
+
+  <!-- PAGE 1 : Arche -->
+  <section class="inv-section page-arch">
+    <div class="arch-wrapper">
+      <img src="images/arch.png" class="arch-img" alt="">
+      <div class="arch-content">
+        <p class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+        <div class="arch-names">
+          Nour El Houda
+          <span class="arch-amp">&</span>
+          Yanis
+        </div>
+        <p class="arch-tagline" lang-fr>Vous invitent à célébrer leur union</p>
+        <p class="arch-tagline" lang-ar>يدعوانكم للاحتفال بزفافهما</p>
+        <p class="arch-date">10 AOÛT 2026</p>
+        <p class="douaa">بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ</p>
+        <p class="scroll-hint" lang-fr>↓ Découvrez tous les détails</p>
+        <p class="scroll-hint" lang-ar>↓ اكتشفوا التفاصيل</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 2 : Famille -->
+  <section class="inv-section page-famille">
+    <div class="flower-block">
+      
+      <div class="section-content">
+        <p class="label" lang-fr>Chers amis et famille</p>
+        <p class="label" lang-ar>أعزاءنا الأهل والأصدقاء</p>
+        <p class="famille-name" lang-fr>Monsieur & Madame BOUDEKAK</p>
+        <p class="famille-name" lang-ar>السيد والسيدة بودكاك</p>
+        <div class="divider"></div>
+        <p class="famille-text" lang-fr>ont la joie et le plaisir de vous faire part du mariage de leur fille</p>
+        <p class="famille-text" lang-ar>يتشرفون بدعوتكم لحضور حفل زفاف ابنتهم</p>
+        <p class="mariee-name">Nour El Houda</p>
+        <p class="famille-text" lang-fr>et seraient heureux de vous compter parmi eux pour célébrer cette union.</p>
+        <p class="famille-text" lang-ar>ويسعدون بتشريفكم في هذه المناسبة السعيدة.</p>
+        <div class="divider"></div>
+        <p class="info-p" lang-fr>📅 LUNDI 10 AOÛT 2026</p>
+        <p class="info-p" lang-ar>📅 الإثنين 10 أوت 2026</p>
+        <p class="info-p" lang-fr>🕑 À PARTIR DE 14H00</p>
+        <p class="info-p" lang-ar>🕑 ابتداءً من الساعة 14:00</p>
+      </div>
+      
+    </div>
+  </section>
+
+  <div class="section-separator"></div>
+
+  <!-- PAGE 3 : Lieu -->
+  <section class="inv-section page-lieu">
+    <div class="flower-block">
+      
+      <div class="section-content">
+        <p class="label" lang-fr>Où nous rejoindre</p>
+        <p class="label" lang-ar>مكان الاحتفال</p>
+        <p class="lieu-title" lang-fr>Le lieu de célébration</p>
+        <p class="lieu-title" lang-ar>قاعة الاحتفالات</p>
+        <div class="divider"></div>
+        <p class="lieu-salle">Salle des fêtes<br>Reine de Saba</p>
+        <p class="lieu-ville">Rouiba · Alger</p>
+        <div class="divider"></div>
+        <!-- OpenStreetMap GRATUIT sans clé API -->
+        <div class="map-container">
+          <iframe
+            src="https://www.openstreetmap.org/export/embed.html?bbox=3.2800,36.7200,3.3200,36.7400&layer=mapnik&marker=36.7300,3.3000"
+            allowfullscreen loading="lazy">
+          </iframe>
+        </div>
+        <a class="map-btn" lang-fr
+           href="https://www.google.com/maps/search/?api=1&query=Salle+des+fetes+Reine+de+Saba+Rouiba+Alger"
+           target="_blank">VOIR SUR GOOGLE MAPS →</a>
+        <a class="map-btn" lang-ar
+           href="https://www.google.com/maps/search/?api=1&query=Salle+des+fetes+Reine+de+Saba+Rouiba+Alger"
+           target="_blank">عرض على خرائط جوجل →</a>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- PAGE 4 : Enfants -->
+  <section class="inv-section page-enfants">
+    <div class="enfants-card">
+      <img src="images/flower_small.png" class="enfants-flower" alt="">
+      <p class="enfants-title" lang-fr>Pas d'enfants, s'il vous plaît</p>
+      <p class="enfants-title" lang-ar>يُرجى عدم إحضار الأطفال</p>
+      <div class="divider"></div>
+      <p class="enfants-text" lang-fr>Les enfants resteront dans nos cœurs... et à la maison ! 🏠💕 Venez profiter pleinement de cette belle soirée entre grands !.</p>
+      <p class="enfants-text" lang-ar>حرصاً على أجواء هادئة وبهيجة، اخترنا الاحتفال بهذه المناسبة بين الكبار فقط.</p>
+      <p class="enfants-merci" lang-fr>Merci — nous vous attendons avec joie !</p>
+      <p class="enfants-merci" lang-ar>شكراً لتفهمكم — في انتظار تشريفكم !</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const scene      = document.getElementById("scene");
+  const sealBtn    = document.getElementById("sealBtn");
+  const opening    = document.getElementById("opening");
+  const hint       = document.getElementById("hint");
+  const invitation = document.getElementById("invitation");
+  const fixedBtns  = document.getElementById("fixedBtns");
+  let opened = false;
+
+  sealBtn.addEventListener("click", () => {
+    if (opened) return;
+    opened = true;
+    hint.textContent = "Ouverture de l'invitation...";
+    hint.classList.add("fade");
+    scene.classList.add("step-open");
+    setTimeout(() => scene.classList.add("step-card"), 800);
+    setTimeout(spawnPetals, 1000);
+    setTimeout(() => opening.classList.add("fade-out"), 2400);
+    setTimeout(() => {
+      opening.style.display = "none";
+      document.body.style.overflow = "auto";
+      invitation.classList.add("show");
+      fixedBtns.classList.add("show");
+      document.querySelectorAll('.inv-section')[0].classList.add('visible');
+      tryPlayMusic();
+      setTimeout(startAutoScroll, 500);
+    }, 3200);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.inv-section').forEach(s => observer.observe(s));
+
+  function spawnPetals() {
+    const p = ["🌸","🌺","🌷","💗","✿","❀"];
+    for (let i = 0; i < 26; i++) {
+      setTimeout(() => {
+        const el = document.createElement("div");
+        el.className = "petal";
+        el.textContent = p[Math.floor(Math.random() * p.length)];
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.top  = "-40px";
+        el.style.fontSize = (10 + Math.random() * 14) + "px";
+        el.style.animationDuration = (3 + Math.random() * 4) + "s";
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 8000);
+      }, i * 100);
+    }
+  }
+
+  function toggleLang() {
+    const btn = document.getElementById("langBtn");
+    if (document.body.classList.contains("ar")) {
+      document.body.classList.remove("ar");
+      btn.textContent = "🌐 عربي";
+      document.documentElement.lang = "fr";
+    } else {
+      document.body.classList.add("ar");
+      btn.textContent = "🌐 Français";
+      document.documentElement.lang = "ar";
+    }
+  }
+
+  const music = document.getElementById("bgMusic");
+  let musicOn = false;
+
+  function tryPlayMusic() {
+    music.volume = 0.3;
+    music.play().then(() => {
+      musicOn = true;
+      document.getElementById("musicBtn").textContent = "🎵 Pause";
+    }).catch(() => {});
+  }
+
+  /* ---- Auto-scroll (stoppable par l'utilisateur) ---- */
+  let scrollInterval = null;
+
+  function startAutoScroll() {
+    let userStopped = false;
+
+    // Si l'utilisateur touche ou scroll → on arrête
+    const stop = () => {
+      userStopped = true;
+      clearInterval(scrollInterval);
+      window.removeEventListener('wheel', stop);
+      window.removeEventListener('touchstart', stop);
+      window.removeEventListener('keydown', stop);
+    };
+
+    window.addEventListener('wheel', stop);
+    window.addEventListener('touchstart', stop);
+    window.addEventListener('keydown', stop);
+
+    scrollInterval = setInterval(() => {
+      if (userStopped) return;
+      window.scrollBy(0, 1.2); // vitesse douce
+      // Arrêt en bas de page
+      if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 10) {
+        clearInterval(scrollInterval);
+      }
+    }, 20);
+  }
+
+  function toggleMusic() {
+    const btn = document.getElementById("musicBtn");
+    if (musicOn) {
+      music.pause(); musicOn = false;
+      btn.textContent = "🎵 Musique";
+    } else {
+      music.play(); musicOn = true;
+      btn.textContent = "🎵 Pause";
+    }
+  }
+</script>
+</body>
+</html>
