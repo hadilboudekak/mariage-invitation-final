@@ -106,13 +106,10 @@
     #invitation { display:none; overflow: hidden; }
     #invitation.show { 
   display:block;
-  animation: autoScroll 55s linear forwards;
+ 
 }
 
-@keyframes autoScroll {
-  0%   { transform: translateY(0); }
-  100% { transform: translateY(-40%); }
-}
+
 
     .inv-section {
       display: flex; flex-direction: column;
@@ -476,34 +473,19 @@
   /* ---- Auto-scroll (stoppable par l'utilisateur) ---- */
   let scrollInterval = null;
 
-  function startAutoScroll() {
-  const stop = () => {
-    clearInterval(scrollInterval);
-    window.removeEventListener('touchstart', stop);
-    window.removeEventListener('wheel', stop);
-  };
-  window.addEventListener('touchstart', stop);
-  window.addEventListener('wheel', stop);
+function startAutoScroll() {
+  const stop = () => clearInterval(scrollInterval);
+  window.addEventListener('touchstart', stop, { once: true });
+  window.addEventListener('wheel', stop, { once: true });
 
   scrollInterval = setInterval(() => {
-    window.scrollTop += 1;
-    window.scrollBy(0, 1);
-    if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 10) {
+    if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 5) {
       clearInterval(scrollInterval);
+      return;
     }
-  }, 16);
+    document.documentElement.scrollTop += 1;
+  }, 20);
 }
-
-  function toggleMusic() {
-    const btn = document.getElementById("musicBtn");
-    if (musicOn) {
-      music.pause(); musicOn = false;
-      btn.textContent = "🎵 Musique";
-    } else {
-      music.play(); musicOn = true;
-      btn.textContent = "🎵 Pause";
-    }
-  }
 </script>
 </body>
 </html>
