@@ -468,30 +468,22 @@
   let scrollInterval = null;
 
   function startAutoScroll() {
-    let userStopped = false;
+  const stop = () => {
+    clearInterval(scrollInterval);
+    window.removeEventListener('touchstart', stop);
+    window.removeEventListener('wheel', stop);
+  };
+  window.addEventListener('touchstart', stop);
+  window.addEventListener('wheel', stop);
 
-    // Si l'utilisateur touche ou scroll → on arrête
-    const stop = () => {
-      userStopped = true;
+  scrollInterval = setInterval(() => {
+    window.scrollTop += 1;
+    window.scrollBy(0, 1);
+    if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 10) {
       clearInterval(scrollInterval);
-      window.removeEventListener('wheel', stop);
-      window.removeEventListener('touchstart', stop);
-      window.removeEventListener('keydown', stop);
-    };
-
-    window.addEventListener('wheel', stop);
-    window.addEventListener('touchstart', stop);
-    window.addEventListener('keydown', stop);
-
-    scrollInterval = setInterval(() => {
-      if (userStopped) return;
-     window.scrollBy({ top: 1.2, behavior: 'auto' }); // vitesse douce
-      // Arrêt en bas de page
-      if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 10) {
-        clearInterval(scrollInterval);
-      }
-    }, 20);
-  }
+    }
+  }, 16);
+}
 
   function toggleMusic() {
     const btn = document.getElementById("musicBtn");
