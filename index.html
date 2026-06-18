@@ -414,7 +414,7 @@
       fixedBtns.classList.add("show");
       document.querySelectorAll('.inv-section')[0].classList.add('visible');
       tryPlayMusic();
-      setTimeout(startAutoScroll, 500);
+      setTimeout(startAutoScroll, 1000);
     }, 3200);
   });
 
@@ -485,7 +485,7 @@
 
     scrollInterval = setInterval(() => {
       if (userStopped) return;
-      window.scrollBy(0, 1.2); // vitesse douce
+     window.scrollBy({ top: 1.2, behavior: 'auto' }); // vitesse douce
       // Arrêt en bas de page
       if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 10) {
         clearInterval(scrollInterval);
