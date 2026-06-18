@@ -103,7 +103,15 @@
        SECTIONS
     ============================================= */
     #invitation { display:none; }
-    #invitation.show { display:block; }
+    #invitation.show { 
+  display:block;
+  animation: autoScroll 15s linear forwards;
+}
+
+@keyframes autoScroll {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-80%); }
+}
 
     .inv-section {
       display: flex; flex-direction: column;
