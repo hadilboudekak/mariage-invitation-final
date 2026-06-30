@@ -115,13 +115,13 @@
     .arch-wrapper { position:relative; width:min(92vw,460px); margin:0 auto; }
     .arch-img { width:100%; display:block; }
     .arch-content {
-      position: absolute;
-      inset: 8% 15% 7%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 11px;
+  position: absolute;
+  inset: 7% 19% 8%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
 }
     .bismillah {
       font-family:'Scheherazade New','Traditional Arabic',serif;
@@ -129,29 +129,31 @@
       direction:rtl; line-height:1.4;
     }
     .arch-sep {
-      width: 68%;
-      max-width: 170px;
-      margin: 8px 0;
-      opacity: 0.85;
-    }
+  width: 55%;
+  max-width: 140px;
+  margin: 4px 0;
+  opacity: 0.75;
+}
     .sep-svg { width:100%; height:auto; display:block; }
      .ayat {
-    font-family: 'Scheherazade New', 'Traditional Arabic', serif;
-    font-size: clamp(13px, 2.7vw, 18px);
-    color: #7a2148;
-    direction: rtl;
-    line-height: 2.2;
-    text-align: center;
-    width: 100%;
-    font-weight: 400;
-  }
+  font-family: 'Scheherazade New', 'Traditional Arabic', serif;
+  font-size: clamp(13px, 2.15vw, 16px);
+  color: #7a2148;
+  direction: rtl;
+  line-height: 2.25;
+  text-align: center;
+  width: 86%;
+  max-width: 330px;
+}
     .douaa {
   font-family: 'Scheherazade New', 'Traditional Arabic', serif;
-  font-size: clamp(11px, 2.4vw, 15px);
+  font-size: clamp(11px, 1.8vw, 14px);
   color: #8b1a4a;
   direction: rtl;
-  line-height: 1.8;
+  line-height: 1.9;
   text-align: center;
+  width: 82%;
+  max-width: 310px;
 }
     .arch-tagline {
       font-family:'Cormorant Garamond',serif;
@@ -159,15 +161,12 @@
       color:#c0507a; font-weight:400; line-height:1.5;
     }
     .arch-date {
-      font-family:'Montserrat',sans-serif;
-      font-size:clamp(12px,2.8vw,17px); font-weight:300; letter-spacing:3px; color:#8b1a4a;
-    }
-    .scroll-hint {
-      font-size:9px; letter-spacing:1.5px; color:#c0507a;
-      text-transform:uppercase; font-family:'Montserrat',sans-serif; font-weight:300;
-      animation:bounce 2s ease-in-out infinite;
-      line-height: 1.8;
-    }
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(14px, 2.4vw, 18px);
+  font-weight: 300;
+  letter-spacing: 5px;
+  color: #8b1a4a;
+}
     @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
 
     .page-famille { background:linear-gradient(180deg,#fff,#fff5f8,#fff); padding-bottom:50px; }
@@ -264,15 +263,7 @@
           <svg viewBox="0 0 160 20" class="sep-svg"><line x1="0" y1="10" x2="58" y2="10" stroke="#c0507a" stroke-width="0.8"/><path d="M58 10 C66 4, 72 4, 80 10 C88 4, 94 4, 102 10" fill="none" stroke="#c0507a" stroke-width="0.8"/><path d="M80 5 C78 8, 78 11, 80 14 C82 11, 82 8, 80 5 Z" fill="#c0507a"/><line x1="102" y1="10" x2="160" y2="10" stroke="#c0507a" stroke-width="0.8"/></svg>
         </div>
         <p class="douaa">بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ</p>
-        <p class="arch-tagline" lang-fr>
-          Une journée de bonheur<br>
-          et de bénédictions vous attend
-        </p>
-        
-        <p class="arch-tagline" lang-ar>
-          يومٌ من الفرح والبركة<br>
-          بانتظاركم
-        </p>
+      
         <div class="arch-sep">
           <svg viewBox="0 0 160 20" class="sep-svg"><line x1="0" y1="10" x2="65" y2="10" stroke="#c0507a" stroke-width="0.8"/><path d="M80 16 C74 9, 68 4, 80 0 C92 4, 86 9, 80 16 Z" fill="#c0507a"/><line x1="95" y1="10" x2="160" y2="10" stroke="#c0507a" stroke-width="0.8"/></svg>
         </div>
